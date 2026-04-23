@@ -3,14 +3,14 @@ var context;
 var player;
 var ball;
 var timer;
-var interval = 1000/60; //60 fps
+var interval = 1000 / 60; // 60 fps
 
 canvas = document.getElementById("myCanvas");
 context = canvas.getContext("2d");
 
 // the paddle
-player = new gameObject(200, canvas.height / 2, 30, 150, '#ff00f2'); // new not New
-player.vx = 0; 
+player = new gameObject(200, canvas.height / 2, 30, 150, "#ff00f2");
+player.vx = 0;
 player.vy = 0;
 
 // the ball
@@ -19,19 +19,29 @@ ball.moveBall();
 
 timer = setInterval(animate, interval);
 
-function animate() {
+function animate()
+{
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         // player movement
-        if (w) {
+        if (w)
+        {
                 player.y -= 4;
         }
 
-        if (s) {
+        if (s)
+        {
                 player.y += 4;
         }
 
         boundry();
+
+        if (ball.collisionCheck(player))
+        {
+                ball.x = player.right() + ball.radius;
+                ball.speedX = Math.abs(ball.speedX);
+                ball.color = "#ffff00";
+        }
 
         player.drawRect();
         player.move();
@@ -40,12 +50,15 @@ function animate() {
         ball.update();
 }
 
-function boundry() {
-    if (player.y > canvas.height - player.height / 2) {
+function boundry()
+{
+    if (player.y > canvas.height - player.height / 2)
+    {
         player.y = canvas.height - player.height / 2;
     }
 
-    if (player.y < player.height / 2) {
+    if (player.y < player.height / 2)
+    {
         player.y = player.height / 2;
     }
 }

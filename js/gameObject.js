@@ -1,11 +1,9 @@
-function gameObject(x,y,w,h, color)
+function gameObject(x, y, w, h, color)
 {
-    // set up player starting point
-
     // set up x
-    if(x==undefined)
+    if (x == undefined)
     {
-        this.x = canvas.width/2;
+        this.x = canvas.width / 2;
     } 
     else 
     {
@@ -13,61 +11,64 @@ function gameObject(x,y,w,h, color)
     }
 
     // set up y
-    if(y==undefined){
-
-        this.y = canvas.height/2;
+    if (y == undefined)
+    {
+        this.y = canvas.height / 2;
     }
     else
     {
-        this.y=y;
+        this.y = y;
     }
 
-    // set up player dimensions
-
     // set up width
-   if(w == undefined){
-    this.width = 100;
+    if (w == undefined)
+    {
+        this.width = 100;
     } 
     else 
     {
-    this.width = w;
+        this.width = w;
     }
 
     // set up height
-    if(h == undefined)
+    if (h == undefined)
     {
-    this.height = 100; // had to change this.w to this.width
+        this.height = 100;
     } 
     else 
     {
-    this.height = h;// had to change this.h to this.height
+        this.height = h;
     }
-        // set up color
-    if (color==undefined){
-        this.color = "rgb(80, 136, 255)" 
+
+    // set up color
+    if (color == undefined)
+    {
+        this.color = "rgb(80, 136, 255)";
     }
     else 
     {
-        this.color =color;
+        this.color = color;
     }
 
-    //bounding box
-
+    // bounding box sides
     this.left = function()
     {
-        return this.x - this.width/2;
+        return this.x - this.width / 2;
     }
+
     this.right = function()
     {
-        return this.x + this.width/2;
+        return this.x + this.width / 2;
     }
+
     this.top = function()
     {
-        return this.y - this.height/2;
+        return this.y - this.height / 2;
     }
+
     this.bottom = function()
     {
-        return this.y + this.height/2;
+        return this.y + this.height / 2;
     }
 
     this.prevX = x;
@@ -76,17 +77,17 @@ function gameObject(x,y,w,h, color)
     this.vx = 0;
     this.vy = 0;
 
-    /// set up physics
+    // set up physics
     this.force = 1;
-    this.ax = 1; // horizatial
-    this.ay = 1;// vertical
+    this.ax = 1;
+    this.ay = 1;
 
     this.drawRect = function()
     {
         context.save();
             context.fillStyle = this.color;
             context.translate(this.x, this.y);
-            context.fillRect((-this.width/2), (-this.height/2), this.width, this.height);
+            context.fillRect((-this.width / 2), (-this.height / 2), this.width, this.height);
         context.restore();
     }
 
@@ -95,11 +96,10 @@ function gameObject(x,y,w,h, color)
         context.save();
             context.fillStyle = this.color;
             context.beginPath();
-            context.translate(this.x,this.y);
-            context.arc(0, 0, this.width/2, 0, 360 * Math.PI/180, true);
+            context.translate(this.x, this.y);
+            context.arc(0, 0, this.width / 2, 0, 360 * Math.PI / 180, true);
             context.closePath();
             context.fill();
-
         context.restore();
     }
 
@@ -109,45 +109,18 @@ function gameObject(x,y,w,h, color)
         this.y += this.vy;
     }
 
-
-    // collistion detection
-    this.collistionCheck = function (obj)
-        {
-        if
-        (
-            this.left() < obj.right() && 
+    // collision detection
+    this.collisionCheck = function(obj)
+    {
+        if (
+            this.left() < obj.right() &&
             this.right() > obj.left() &&
             this.top() < obj.bottom() &&
-            this.bottom() > obj.top() 
-        )
-        {
-            return true
+            this.bottom() > obj.top()
+        ) {
+            return true;
         }
-        return false
-    }
 
-    this.update = function(){
-    this.x += this.speedX;
-    this.y += this.speedY;
-
-    // RIGHT
-    if (this.x + this.height > this.canvas.width) {
-        this.x = this.canvas.width - this.radius;
+        return false;
     }
-
-    // LEFT
-    if (this.x - this.width < 0) {
-        this.x = this.width;
-    }
-
-    // BOTTOM
-    if (this.y + this.height > this.canvas.height) {
-        this.y = this.canvas.height - this.height;
-    }
-
-    // TOP
-    if (this.y - this.height < 0) {
-        this.y = this.height;
-    }
-}
 }

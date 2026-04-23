@@ -25,33 +25,62 @@ class Ball {
         this.speedX = 5;
         this.speedY = 5;
     }
-  
+
+    left() {
+        return this.x - this.radius;
+    }
+
+    right() {
+        return this.x + this.radius;
+    }
+
+    top() {
+        return this.y - this.radius;
+    }
+
+    bottom() {
+        return this.y + this.radius;
+    }
+
+    collisionCheck(obj) {
+        if (
+            this.left() < obj.right() &&
+            this.right() > obj.left() &&
+            this.top() < obj.bottom() &&
+            this.bottom() > obj.top()
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     update() {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        // RIGHT
+        // RIGHT WALL
         if (this.x + this.radius > this.canvas.width) {
             this.x = this.canvas.width - this.radius;
-            this.speedX = -this.speedX;   
+            this.speedX = -this.speedX;
             this.color = "#e42222";
         }
 
-        // LEFT
+        // LEFT WALL
         if (this.x - this.radius < 0) {
             this.x = this.radius;
             this.speedX = -this.speedX;
             this.color = "#3700ff";
         }
 
-        // BOTTOM
+        // BOTTOM WALL
         if (this.y + this.radius > this.canvas.height) {
             this.y = this.canvas.height - this.radius;
             this.speedY = -this.speedY;
             this.color = "#48fd42";
         }
 
-        // TOP
+        // TOP WALL
         if (this.y - this.radius < 0) {
             this.y = this.radius;
             this.speedY = -this.speedY;
